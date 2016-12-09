@@ -1,6 +1,8 @@
 import HelloSayer from './HelloSayer';
 import React from 'react';
 import style from '../styles/Helloform.scss';
+import { FABButton, Icon } from 'react-mdl';
+import MDLPage from './MDLPage'
 
 class HelloForm extends React.Component {
     constructor(props) {
@@ -9,7 +11,9 @@ class HelloForm extends React.Component {
     }
 
     render() {
-        return (<div className="hello-form">
+        return (
+        <div className="hello-form">
+            <MDLPage/>
             <input type="text" onChange={this.onChange.bind(this)} />
             <HelloSayer name={this.state.name} />
         </div>);
