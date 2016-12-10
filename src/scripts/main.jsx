@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HelloForm from './HelloForm';
+import HelloForm from './components/HelloForm';
 
 
 ReactDOM.render(<HelloForm />, document.getElementById('example'));
