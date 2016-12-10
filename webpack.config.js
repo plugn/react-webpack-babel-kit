@@ -1,25 +1,36 @@
+const PATH = require('path');
+const WEBPACK = require('webpack');
+const DEV_SERVER_CONFIG = require('./dev-server-config');
+const DEFAULT_HOT_ENTRY = [
+    `webpack-dev-server/client?http://${DEV_SERVER_CONFIG.host}:${DEV_SERVER_CONFIG.port}`,
+    'webpack/hot/only-dev-server'
+]
+
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 function getDevTool() {
     if (process.env.NODE_ENV !== 'production') {
         return 'source-map'; //enables source map
     }
     
-    return false; 
+    return false 
 }
 
 module.exports = {
     entry: {
-        main: './src/scripts/main.js'
+        main: DEFAULT_HOT_ENTRY.concat(['./src/scripts/main'])
     },
     output: {
-        filename: './dist/scripts/[name].js'
+        path: PATH.join(__dirname, 'dist/scripts'),
+        publicPath: '/static/',
+        filename: '[name].js'
     },
     devtool: getDevTool(),
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel',
                 query: {
@@ -33,8 +44,14 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('dist/styles/main.css', {
+        new WEBPACK.HotModuleReplacementPlugin(),
+        new WEBPACK.NoErrorsPlugin(),
+        new ExtractTextPlugin('main.css', {
             allChunks: true
         })
-    ]
-};
+    ],
+    resolve: {
+        extensions: ['', '.js', '.jsx', '.json', '.scss']
+    },
+    devServer: DEV_SERVER_CONFIG
+}

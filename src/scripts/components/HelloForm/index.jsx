@@ -1,11 +1,13 @@
 import HelloSayer from './HelloSayer';
 import React from 'react';
-import style from '../styles/Helloform.scss';
+import './style';
 
 class HelloForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {name: 'world'};
+        this.state = {
+            name: props.name
+        };
     }
 
     render() {
@@ -20,6 +22,10 @@ class HelloForm extends React.Component {
             name: e.target.value
         });
     }
+}
+
+HelloForm.defaultProps = {
+    name: 'World'
 }
 
 export default HelloForm;
